@@ -31,9 +31,11 @@ class GreeterServicer(greet_pb2_grpc.GreeterServicer):
 
     def InteractingHello(self, request_iterator, context):
         for request in request_iterator:
-            yield print(f"Received request from {request.salutation}")
-            time.sleep(2)
-        print("Finished processing all requests.")
+            print(f"Received request:")
+            print(request)
+
+            yield greet_pb2.HelloReply(retort=f"Hello {request.salutation}, how are you?")
+
 
 
 def serve():

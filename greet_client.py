@@ -12,6 +12,7 @@ def get_client_stream_function():
         if name == "":
             break
         yield greet_pb2.HelloRequest(salutation=name)
+        time.sleep(1)
 
 
 def run():
@@ -43,8 +44,12 @@ def run():
             print(delayed_reply)
 
         elif rpc_call == 4:
-            print("Not implemented yet")
-            return greet_pb2.HelloRequest(salutation="Bonjour")
+            responses = stub.InteractingHello(get_client_stream_function())
+
+            for response in responses:
+                print("Received InteractingHello reply:")
+                print(response)
+
 
         return None
 
