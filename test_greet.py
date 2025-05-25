@@ -16,7 +16,6 @@ async def test_greet_unary_unary():
         hello_reply = client.SayHello(hello_request)
         assert hello_reply.retort == "Hola!"
 
-@pytest.mark.asyncio
 def test_greet_unary_stream():
     with grpc.insecure_channel('localhost:50051') as channel:
         client = greet_pb2_grpc.GreeterStub(channel)
@@ -39,3 +38,20 @@ def test_greet_stream_unary():
         assert delayed_reply.request[0].salutation == "Alice"
         assert delayed_reply.request[1].salutation == "Bob"
         assert delayed_reply.request[2].salutation == "Charlie"
+
+def test_greet_stream_stream():
+    with grpc.insecure_channel('localhost:50051') as channel:
+        client = greet_pb2_grpc.GreeterStub(channel)
+
+        def get_client_stream_function():
+            for name in ["Alice", "Bob", "Charlie"]:
+                yield greet_pb2.HelloRequest(salutation=name)
+
+        responses = client.InteractingHello(get_client_stream_function())
+        expected_responses = [
+            "Hello Alice, how are you?",
+            "Hello Bob, how are you?",
+            "Hello Charlie, how are you?"
+        ]
+        for response, expected in zip(responses, expected_responses):
+            assert response.retort == expected
