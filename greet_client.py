@@ -11,7 +11,7 @@ def get_client_stream_function():
         name = input("Enter your name: ")
         if name == "":
             break
-        yield greet_pb2.HelloRequest(salutation="elo")
+        yield greet_pb2.HelloRequest(salutation=name)
 
 
 def run():
@@ -38,9 +38,9 @@ def run():
 
         elif rpc_call == 3:
             delayed_reply = stub.ChattyClientSaysHello(get_client_stream_function())
-            print(f"Received ChattyClientSaysHello reply: {delayed_reply}")
-            # for reply in delayed_reply:
-            #     print(f"Received ParrotSayHello reply: {reply.retort}")
+
+            print("Received ChattyClientSaysHello reply:")
+            print(delayed_reply)
 
         elif rpc_call == 4:
             print("Not implemented yet")

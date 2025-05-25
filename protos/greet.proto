@@ -3,13 +3,13 @@ syntax = "proto3";
 package greet;
 
 service Greeter {
-  rpc SayHello (HelloRequest) returns (HelloReply) {}
+  rpc SayHello(HelloRequest) returns (HelloReply) {}
 
-  rpc ParrotSayHello (HelloRequest) returns (stream HelloReply) {}
+  rpc ParrotSayHello(HelloRequest) returns (stream HelloReply) {}
 
-  rpc ChattyClientSaysHello (stream HelloRequest) returns (DelayedReply) {}
+  rpc ChattyClientSaysHello(stream HelloRequest) returns (DelayedReply) {}
 
-  rpc InteractingHello (stream HelloRequest) returns (stream HelloReply) {}
+  rpc InteractingHello(stream HelloRequest) returns (stream HelloReply) {}
 }
 
 message HelloRequest {
@@ -21,5 +21,6 @@ message HelloReply {
 }
 
 message DelayedReply {
-  repeated string delayed_retort = 1;
+  string message = 1;
+  repeated HelloRequest request = 2;
 }

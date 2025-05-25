@@ -20,12 +20,13 @@ class GreeterServicer(greet_pb2_grpc.GreeterServicer):
             time.sleep(1)
 
     def ChattyClientSaysHello(self, request_iterator, context):
-        delayed_reply = greet_pb2.DelayedReply(delayed_retort="Delayed response")
+        delayed_reply = greet_pb2.DelayedReply()
         for request in request_iterator:
             print(f"Received request from {request.salutation}")
             print(request)
             delayed_reply.request.append(request)
 
+        delayed_reply.message = f"You have sent {len(delayed_reply.request)} messages. Please expect a delayed response."
         return delayed_reply
 
     def InteractingHello(self, request_iterator, context):

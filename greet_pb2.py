@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0bgreet.proto\x12\x05greet\"\"\n\x0cHelloRequest\x12\x12\n\nsalutation\x18\x01 \x01(\t\"\x1c\n\nHelloReply\x12\x0e\n\x06retort\x18\x01 \x01(\t\"&\n\x0c\x44\x65layedReply\x12\x16\n\x0e\x64\x65layed_retort\x18\x01 \x03(\t2\x86\x02\n\x07Greeter\x12\x34\n\x08SayHello\x12\x13.greet.HelloRequest\x1a\x11.greet.HelloReply\"\x00\x12<\n\x0eParrotSayHello\x12\x13.greet.HelloRequest\x1a\x11.greet.HelloReply\"\x00\x30\x01\x12\x45\n\x15\x43hattyClientSaysHello\x12\x13.greet.HelloRequest\x1a\x13.greet.DelayedReply\"\x00(\x01\x12@\n\x10InteractingHello\x12\x13.greet.HelloRequest\x1a\x11.greet.HelloReply\"\x00(\x01\x30\x01\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0bgreet.proto\x12\x05greet\"\"\n\x0cHelloRequest\x12\x12\n\nsalutation\x18\x01 \x01(\t\"\x1c\n\nHelloReply\x12\x0e\n\x06retort\x18\x01 \x01(\t\"E\n\x0c\x44\x65layedReply\x12\x0f\n\x07message\x18\x01 \x01(\t\x12$\n\x07request\x18\x02 \x03(\x0b\x32\x13.greet.HelloRequest2\x86\x02\n\x07Greeter\x12\x34\n\x08SayHello\x12\x13.greet.HelloRequest\x1a\x11.greet.HelloReply\"\x00\x12<\n\x0eParrotSayHello\x12\x13.greet.HelloRequest\x1a\x11.greet.HelloReply\"\x00\x30\x01\x12\x45\n\x15\x43hattyClientSaysHello\x12\x13.greet.HelloRequest\x1a\x13.greet.DelayedReply\"\x00(\x01\x12@\n\x10InteractingHello\x12\x13.greet.HelloRequest\x1a\x11.greet.HelloReply\"\x00(\x01\x30\x01\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -36,7 +36,7 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_HELLOREPLY']._serialized_start=58
   _globals['_HELLOREPLY']._serialized_end=86
   _globals['_DELAYEDREPLY']._serialized_start=88
-  _globals['_DELAYEDREPLY']._serialized_end=126
-  _globals['_GREETER']._serialized_start=129
-  _globals['_GREETER']._serialized_end=391
+  _globals['_DELAYEDREPLY']._serialized_end=157
+  _globals['_GREETER']._serialized_start=160
+  _globals['_GREETER']._serialized_end=422
 # @@protoc_insertion_point(module_scope)
