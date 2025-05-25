@@ -1,4 +1,5 @@
 from concurrent import futures
+from unittest.mock import patch
 
 import grpc
 import pytest
@@ -15,6 +16,7 @@ async def test_greet_unary_unary():
         hello_reply = client.SayHello(hello_request)
         assert hello_reply.retort == "Hola!"
 
+@pytest.mark.asyncio
 def test_greet_unary_stream():
     with grpc.insecure_channel('localhost:50051') as channel:
         client = greet_pb2_grpc.GreeterStub(channel)
