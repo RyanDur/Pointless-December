@@ -9,7 +9,6 @@ import greet_pb2_grpc
 class GreeterServicer(greet_pb2_grpc.GreeterServicer):
     def SayHello(self, request, context):
         print(f"Received request {request}")
-        time.sleep(2)  # Simulate a long-running process
         return greet_pb2.HelloReply(retort="Hola!")
 
     def ParrotSayHello(self, request, context):
