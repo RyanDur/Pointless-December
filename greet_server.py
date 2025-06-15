@@ -1,5 +1,6 @@
 import asyncio
 from concurrent import futures
+from typing import Generator, AsyncGenerator
 
 import grpc
 import greet_pb2
@@ -11,12 +12,11 @@ class GreeterServicer(greet_pb2_grpc.GreeterServicer):
         print(f"Received request {request}")
         return greet_pb2.HelloReply(retort="Hola!")
 
-    async def ParrotSayHello(self, request, context):
-        print(f"Received request: {request}")
+    def ParrotSayHello(self, request, context):
+        print(f"Received request: {request} Parroting back replies...")
         for i in range(3):
             print(f"Sending reply {i + 1}")
             yield greet_pb2.HelloReply(retort=f"Server says: Chirp Chirp! {i}")
-            await asyncio.sleep(1)
 
     def ChattyClientSaysHello(self, request_iterator, context):
         delayed_reply = greet_pb2.DelayedReply()
