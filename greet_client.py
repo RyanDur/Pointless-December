@@ -55,4 +55,10 @@ def run():
 
 
 if __name__ == '__main__':
-    run()
+    try:
+        while True:
+            run()
+            print('\n\nPress Ctrl+C to stop the program.\n\n')
+    except KeyboardInterrupt:
+        print("\nProgram stopped by user.")
+
