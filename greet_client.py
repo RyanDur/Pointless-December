@@ -4,6 +4,17 @@ import grpc
 
 import greet_pb2
 import greet_pb2_grpc
+from multiprocessing import Process
+
+
+def run_in_parallel(*fns):
+    proc = []
+    for fn in fns:
+        p = Process(target=fn)
+        p.start()
+        proc.append(p)
+    for p in proc:
+        p.join()
 
 
 def get_client_stream_function():
@@ -14,18 +25,17 @@ def get_client_stream_function():
         yield greet_pb2.HelloRequest(salutation=name)
         time.sleep(1)
 
+
 def get_person_1_client_stream_function():
     responses = ["Alice 1", "Bob 1", "Charlie 1"]
     for response in responses:
         yield greet_pb2.HelloRequest(salutation=response)
-        time.sleep(1)
+
 
 def get_person_2_client_stream_function():
     responses = ["Dave 2", "Eve 2", "Frank 2"]
     for response in responses:
         yield greet_pb2.HelloRequest(salutation=response)
-        time.sleep(2)
-
 
 
 def run():
@@ -36,6 +46,7 @@ def run():
         print("3. Chatty client Say Hello - Client Side RPC")
         print("4. Interacting Hello - Bidirectional RPC")
         print("5. More Interacting Hello - Bidirectional RPC")
+        print("6. Multiprocess Interacting Hello - Bidirectional RPC")
         rpc_call = int(input("Enter RPC number: "))
 
         if rpc_call == 1:
@@ -76,8 +87,21 @@ def run():
                 print(f"Received InteractingHello reply: {response.retort}")
                 input("Press Enter to continue...")
 
+        elif rpc_call == 6:
+            p1 = Process(target=run_process, args=(stub, get_person_1_client_stream_function, 1))
+            p2 = Process(target=run_process, args=(stub, get_person_2_client_stream_function, 2))
+            p1.start()
+            p2.start()
+            p1.join()
+            p2.join()
 
         return None
+
+
+def run_process(stub, stream, num):
+    for response in stub.InteractingHello(stream()):
+        print(f"Process {num} received: {response.retort}")
+        time.sleep(2)
 
 
 if __name__ == '__main__':
@@ -87,4 +111,3 @@ if __name__ == '__main__':
             print('\n\nPress Ctrl+C to stop the program.\n\n')
     except KeyboardInterrupt:
         print("\nProgram stopped by user.")
-
