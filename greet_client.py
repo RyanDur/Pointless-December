@@ -14,6 +14,19 @@ def get_client_stream_function():
         yield greet_pb2.HelloRequest(salutation=name)
         time.sleep(1)
 
+def get_person_1_client_stream_function():
+    responses = ["Alice 1", "Bob 1", "Charlie 1"]
+    for response in responses:
+        yield greet_pb2.HelloRequest(salutation=response)
+        time.sleep(1)
+
+def get_person_2_client_stream_function():
+    responses = ["Dave 2", "Eve 2", "Frank 2"]
+    for response in responses:
+        yield greet_pb2.HelloRequest(salutation=response)
+        time.sleep(2)
+
+
 
 def run():
     with grpc.insecure_channel('localhost:50051') as channel:
@@ -22,6 +35,7 @@ def run():
         print("2. Parrot Says Hello - Server Side Streaming RPC")
         print("3. Chatty client Say Hello - Client Side RPC")
         print("4. Interacting Hello - Bidirectional RPC")
+        print("5. More Interacting Hello - Bidirectional RPC")
         rpc_call = int(input("Enter RPC number: "))
 
         if rpc_call == 1:
@@ -49,6 +63,18 @@ def run():
             for response in responses:
                 print("Received InteractingHello reply:")
                 print(response)
+
+        elif rpc_call == 5:
+            responses_1 = stub.InteractingHello(get_person_1_client_stream_function())
+            responses_2 = stub.InteractingHello(get_person_2_client_stream_function())
+
+            for _ in range(3):
+                response = next(responses_1)
+                print(f"Received InteractingHello reply: {response.retort}")
+                input("Press Enter to continue...")
+                response = next(responses_2)
+                print(f"Received InteractingHello reply: {response.retort}")
+                input("Press Enter to continue...")
 
 
         return None
